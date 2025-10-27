@@ -21,13 +21,30 @@ class DashboardController extends Controller{
         }
         $usuario_id = $_SESSION['user']['id'];
         $nombre = $_SESSION['user']['nombre'];
+        
+        // Obtener cuenta seleccionada (si existe)
+        $cuenta_id = isset($_SESSION['cuenta_seleccionada']) && $_SESSION['cuenta_seleccionada'] > 0 ? $_SESSION['cuenta_seleccionada'] : null;
+        
+        // Cargar cuentas del usuario
+        $cuentaModel = $this->loadModel('Cuenta');
+        $cuentas = $cuentaModel->listarCuentas($usuario_id);
+        
+        // Debug: Verificar si hay cuentas
+        if (empty($cuentas)) {
+            error_log("No se encontraron cuentas para el usuario ID: $usuario_id");
+        }
+        
+        $this->_view->cuentas = $cuentas;
+        
         $metaModel = $this->loadModel('Meta');
         $metas = $metaModel->listarMetas($usuario_id);
         $ingresoModel = $this->loadModel('Ingreso');
         $gastoModel = $this->loadModel('Gasto');
         $categoriaModel = $this->loadModel('Categoria');
-        $ingresos = $ingresoModel->listarIngresos($usuario_id);
-        $gastos = $gastoModel->listarGastos($usuario_id);
+        
+        // Filtrar por cuenta si está seleccionada
+        $ingresos = $ingresoModel->listarIngresos($usuario_id, $cuenta_id);
+        $gastos = $gastoModel->listarGastos($usuario_id, $cuenta_id);
         $categorias = $categoriaModel->listarTodas();
         $ingresosPorCategoria = [];
         foreach ($ingresos as $ing) {
@@ -39,7 +56,7 @@ class DashboardController extends Controller{
             $cat = $gas['categoria'] ?: 'Sin categoría';
             $gastosPorCategoria[$cat] = isset($gastosPorCategoria[$cat]) ? $gastosPorCategoria[$cat] + $gas['monto'] : $gas['monto'];
         }
-        $saldo = $this->calcularSaldo($usuario_id);
+        $saldo = $this->calcularSaldo($usuario_id, $cuenta_id);
         $resumenMetas = $this->verificarCumplimientoMetas($usuario_id);
 
         $this->_view->nombre = $nombre;
@@ -53,16 +70,59 @@ class DashboardController extends Controller{
         $this->_view->categorias = $categorias;
         $this->_view->renderizar('index');
     }
-    public function calcularSaldo($usuario_id) {
+    public function calcularSaldo($usuario_id, $cuenta_id = null) {
         try {
-            $ingresos = $this->_modelo->ingresos($usuario_id); 
-            $gastos = $this->_modelo->gastos($usuario_id);
+            $ingresos = $this->_modelo->ingresos($usuario_id, $cuenta_id); 
+            $gastos = $this->_modelo->gastos($usuario_id, $cuenta_id);
             $totalIngresos = $ingresos && $ingresos['total'] !== null ? (float)$ingresos['total'] : 0;
             $totalGastos = $gastos && $gastos['total'] !== null ? (float)$gastos['total'] : 0;
+            
+            // Si hay una cuenta específica seleccionada, agregar el saldo inicial
+            if ($cuenta_id !== null && $cuenta_id > 0) {
+                $cuentaModel = $this->loadModel('Cuenta');
+                return $cuentaModel->calcularSaldo($cuenta_id, $usuario_id);
+            }
+            
             return $totalIngresos - $totalGastos;
         } catch (PDOException $e) {
             return 0;
         }
+    }
+    
+    public function cambiarCuenta() {
+        if (!isset($_SESSION['user'])) {
+            $this->jsonResponse(['success' => false, 'message' => 'No autorizado']);
+            return;
+        }
+
+        $cuenta_id = isset($_GET['cuenta_id']) ? intval($_GET['cuenta_id']) : null;
+        
+        // Si cuenta_id es 0 o 'todos', limpiar la selección
+        if ($cuenta_id === 0 || $cuenta_id === 'todos' || $cuenta_id === 'all') {
+            unset($_SESSION['cuenta_seleccionada']);
+            $this->jsonResponse([
+                'success' => true,
+                'message' => 'Ver todas las cuentas'
+            ]);
+            return;
+        }
+
+        // Verificar que la cuenta pertenece al usuario
+        $cuentaModel = $this->loadModel('Cuenta');
+        $cuenta = $cuentaModel->obtenerPorId($cuenta_id, $_SESSION['user']['id']);
+        if (!$cuenta) {
+            $this->jsonResponse(['success' => false, 'message' => 'Cuenta no encontrada']);
+            return;
+        }
+
+        // Guardar cuenta seleccionada en sesión
+        $_SESSION['cuenta_seleccionada'] = $cuenta_id;
+        
+        $this->jsonResponse([
+            'success' => true,
+            'message' => 'Cuenta cambiada correctamente',
+            'cuenta' => $cuenta
+        ]);
     }
     public function verificarCumplimientoMetas($usuario_id) {
         try {

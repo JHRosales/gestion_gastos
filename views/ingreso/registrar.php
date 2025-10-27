@@ -23,6 +23,15 @@
               include __DIR__ . '/../categoria/dropdown_categoria.php';
             ?>
 
+            <!-- Cuenta -->
+            <?php
+              $inputName = 'cuenta_id';
+              $dropdownId = 'dropdownCuentaIngreso';
+              $label = 'Cuenta';
+              $selectedCuentaId = ($this->esEdicion && isset($this->ingreso['cuenta_id']) && $this->ingreso['cuenta_id'] !== '') ? $this->ingreso['cuenta_id'] : '';
+              include __DIR__ . '/../cuenta/dropdown_cuenta.php';
+            ?>
+
             <div class="mb-3">
               <label for="descripcion" class="form-label">Descripción</label>
               <input type="text" class="form-control" id="descripcion" name="descripcion" required 

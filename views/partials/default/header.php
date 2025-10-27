@@ -37,6 +37,9 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php echo BASE_URL ?>categoria"><i class="bi bi-tags"></i> Categorías</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo BASE_URL ?>cuenta"><i class="bi bi-wallet2"></i> Cuentas</a>
+        </li>
       </ul>
     </div>
   </div>

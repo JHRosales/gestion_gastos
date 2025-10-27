@@ -23,6 +23,8 @@ class IngresoController extends Controller {
             $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
             $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
             $fecha = isset($_POST['fecha']) ? trim($_POST['fecha']) : '';
+            $cuenta_id = isset($_POST['cuenta_id']) && $_POST['cuenta_id'] !== '' ? intval($_POST['cuenta_id']) : null;
+            
 
             if ($monto === '' || $categoria === '' || $fecha === '') {
                 $_SESSION['error_ingreso'] = 'Todos los campos obligatorios deben completarse.';
@@ -30,7 +32,7 @@ class IngresoController extends Controller {
                 return;
             }
 
-            $ok = $this->_modelo->actualizarIngreso($id, $usuario_id, $monto, $categoria, $descripcion, $fecha);
+            $ok = $this->_modelo->actualizarIngreso($id, $usuario_id, $monto, $categoria, $descripcion, $fecha, $cuenta_id);
             if ($ok) {
                 $_SESSION['success_ingreso'] = 'Ingreso actualizado correctamente.';
             } else {
@@ -51,6 +53,11 @@ class IngresoController extends Controller {
         // Cargar datos necesarios para la vista
         $categoriaModel = $this->loadModel('Categoria');
         $this->_view->categorias = $categoriaModel->listarPorTipo('ingreso');
+        
+        // Cargar cuentas para el selector
+        $cuentaModel = $this->loadModel('Cuenta');
+        $this->_view->cuentas = $cuentaModel->listarCuentas($_SESSION['user']['id']);
+        
         $this->_view->esEdicion = true;
         $this->_view->renderizar('registrar');
     }
@@ -88,6 +95,7 @@ class IngresoController extends Controller {
             $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
             $descripcion = isset($_POST['descripcion']) ? trim($_POST['descripcion']) : '';
             $fecha = isset($_POST['fecha']) ? trim($_POST['fecha']) : '';
+            $cuenta_id = isset($_POST['cuenta_id']) && $_POST['cuenta_id'] !== '' ? intval($_POST['cuenta_id']) : null;
 
             if ($monto === '' || $categoria === '' || $fecha === '') {
                 $_SESSION['error_ingreso'] = 'Todos los campos obligatorios deben completarse.';
@@ -95,12 +103,12 @@ class IngresoController extends Controller {
                 return;
             }
 
-            $ok = $this->_modelo->crearIngreso($usuario_id, $monto, $categoria, $descripcion, $fecha);
+            $ok = $this->_modelo->crearIngreso($usuario_id, $monto, $categoria, $descripcion, $fecha, $cuenta_id);
             if ($ok) {
                 $_SESSION['success_ingreso'] = 'Ingreso registrado correctamente.';
             } else {
                 $_SESSION['error_ingreso'] = 'Error al registrar el ingreso.';
-                $log = date('Y-m-d H:i:s') . " | Error al registrar ingreso | usuario_id: $usuario_id | monto: $monto | categoria: $categoria | descripcion: $descripcion | fecha: $fecha\n";
+                $log = date('Y-m-d H:i:s') . " | Error al registrar ingreso | usuario_id: $usuario_id | monto: $monto | categoria: $categoria | descripcion: $descripcion | fecha: $fecha | cuenta_id: $cuenta_id\n";
                 $logDir = __DIR__ . '/../logs';
                 if (!is_dir($logDir)) {
                     mkdir($logDir, 0777, true);
@@ -114,6 +122,11 @@ class IngresoController extends Controller {
         // Cargar datos necesarios para la vista
         $categoriaModel = $this->loadModel('Categoria');
         $this->_view->categorias = $categoriaModel->listarPorTipo('ingreso');
+        
+        // Cargar cuentas para el selector
+        $cuentaModel = $this->loadModel('Cuenta');
+        $this->_view->cuentas = $cuentaModel->listarCuentas($_SESSION['user']['id']);
+        
         $this->_view->esEdicion = false;
         $this->_view->renderizar('registrar');
     }

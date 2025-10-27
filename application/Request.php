@@ -14,8 +14,11 @@ class Request {
             $url = explode('/', $url);	//se ingresa el una variable
             $url = array_filter($url);  // elimina los elementos vacios
 
-            $this->_controlador = strtolower(array_shift($url));//convierte a minuscula y se almacena el products en el controlador
-            $this->_metodo = strtolower(array_shift($url));//almacen ale medodo eliminar
+            $controlador = array_shift($url);
+            $metodo = array_shift($url);
+            
+            $this->_controlador = $controlador ? strtolower($controlador) : null;//convierte a minuscula y se almacena el products en el controlador
+            $this->_metodo = $metodo ? strtolower($metodo) : null;//almacen ale medodo eliminar
             $this->_argumentos = $url;//resto de parametros
         }
 
