@@ -1,0 +1,35 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+  }
+  .categoria-icon-preview {
+    font-size: 2rem;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+  .categoria-badge {
+    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5em 0.8em;
+  }
+  
+  /* Estilo del icono en categorias */
+  .icono-btn.selected,
+  .color-paleta.selected {
+    border: 2px solid #0d6efd !important;
+    box-shadow: 0 0 0 2px #b6d4fe;
+  }
+  .icono-btn,
+  .color-paleta {
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+
+  #balanceMensualChart {
+    max-width: 300px !important;
+    max-height: 300px !important;
+    width: 300px !important;
+    height: 300px !important;
+  }

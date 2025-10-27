@@ -1,0 +1,13 @@
+<?php
+// Configuración general para gestion_gastos siguiendo el patrón MVC
+define('BASE_URL', 'http://' . $_SERVER['SERVER_NAME'] .
+    ($_SERVER['SERVER_PORT'] != 80 ? ':' . $_SERVER['SERVER_PORT'] : '') .
+    dirname($_SERVER['SCRIPT_NAME']) . '/');
+define('DEFAULT_CONTROLLER', 'index');
+define('DEFAULT_METODO', 'index');
+define('DEFAULT_LAYOUT', 'default');
+define('SERVIDOR', 'localhost'); // Cambia si tu host es diferente
+define('NOMBRE_BD', 'smart_wallet'); // Usa la BD migrada
+define('USUARIO', 'root');
+define('PASSWORD', '');
+define('DSN_W', "mysql:host=".SERVIDOR.";dbname=".NOMBRE_BD.";charset=utf8");
