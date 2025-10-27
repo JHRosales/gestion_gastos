@@ -11,7 +11,7 @@
       <div class="card mx-auto shadow" style="max-width:400px;">
         <div class="card-body">
           <h5 class="card-title mb-2">Saldo disponible</h5>
-          <p class="display-6 fw-bold mb-0">$<?= number_format($this->saldo, 2) ?></p>
+          <p class="display-6 fw-bold mb-0">S/. <?= number_format($this->saldo, 2) ?></p>
         </div>
       </div>
       <?php if ($this->saldo < 0): ?>
