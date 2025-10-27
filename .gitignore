@@ -1,0 +1,29 @@
+# Archivos de configuración con credenciales
+application/Config.php
+
+# Directorio de dependencias de Composer
+/vendor/
+
+# Archivos de logs
+*.log
+
+# Archivos temporales del sistema
+*.tmp
+*.swp
+*.swo
+*~
+
+# Archivos del IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Archivos de configuración del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de sesión y cache
+session/
+cache/
+*.cache
+
