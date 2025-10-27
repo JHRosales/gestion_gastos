@@ -3,6 +3,7 @@ session_start();
 require_once(__DIR__ . '/../config/database.php');
 
 header('Content-Type: application/json');
+// TODO: Validar si se esta usando. 
 
 if (isset($_POST['action']) && isset($_SESSION['user']['id'])) {
     $action = $_POST['action'];
