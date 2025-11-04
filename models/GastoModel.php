@@ -11,21 +11,32 @@ class GastoModel extends Model {
             $this->conn = null;
         }
     }
-    public function crearGasto($usuario_id, $monto, $categoria, $descripcion, $fecha, $cuenta_id = null) {
+    public function crearGasto($usuario_id, $monto, $categoria, $descripcion, $fecha, $cuenta_id = null, $es_transferencia = 0, $transferencia_id = null) {
         if (!$this->conn) return false;
         if (empty($usuario_id) || empty($monto) || empty($categoria) || empty($fecha)) {
             return false;
         }
         try {
-            $sql = "INSERT INTO gastos (usuario_id, cuenta_id, monto, categoria, descripcion, fecha) VALUES (:usuario_id, :cuenta_id, :monto, :categoria, :descripcion, :fecha)";
+            $sql = "INSERT INTO gastos (usuario_id, cuenta_id, es_transferencia, transferencia_id, monto, categoria, descripcion, fecha) VALUES (:usuario_id, :cuenta_id, :es_transferencia, :transferencia_id, :monto, :categoria, :descripcion, :fecha)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
             $stmt->bindParam(':cuenta_id', $cuenta_id, PDO::PARAM_INT);
+            $stmt->bindParam(':es_transferencia', $es_transferencia, PDO::PARAM_INT);
+            $stmt->bindParam(':transferencia_id', $transferencia_id, PDO::PARAM_INT);
             $stmt->bindParam(':monto', $monto);
             $stmt->bindParam(':categoria', $categoria);
             $stmt->bindParam(':descripcion', $descripcion);
             $stmt->bindParam(':fecha', $fecha);
             return $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public function obtenerUltimoId() {
+        if (!$this->conn) return false;
+        try {
+            return $this->conn->lastInsertId();
         } catch (PDOException $e) {
             return false;
         }

@@ -46,13 +46,30 @@
   <!-- Botones de Acceso Rápido -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="d-flex flex-row gap-2 justify-content-center align-items-stretch">
+      <div class="d-flex flex-row gap-2 justify-content-center align-items-stretch flex-wrap">
         <a href="<?php echo BASE_URL ?>ingreso/registrar" class="btn btn-success btn-lg flex-fill py-4 py-md-2"><i class="bi bi-plus-circle fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nuevo ingreso</span><span class="d-md-none">Ingreso</span></a>
         <a href="<?php echo BASE_URL ?>gasto/registrar" class="btn btn-danger btn-lg flex-fill py-4 py-md-2"><i class="bi bi-dash-circle fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nuevo gasto</span><span class="d-md-none">Gasto</span></a>
+        <a href="<?php echo BASE_URL ?>transferencia/registrar" class="btn btn-info btn-lg flex-fill py-4 py-md-2"><i class="bi bi-arrow-left-right fs-3 me-1"></i><span class="d-none d-md-inline">Registrar transferencia</span><span class="d-md-none">Transferencia</span></a>
         <a href="<?php echo BASE_URL ?>meta/registrar" class="btn btn-primary btn-lg flex-fill py-4 py-md-2"><i class="bi bi-bullseye fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nueva meta</span><span class="d-md-none">Meta</span></a>
       </div>
     </div>
   </div>
+  
+  <?php if (isset($_SESSION['success_transferencia'])): ?>
+    <div class="alert alert-success alert-dismissible fade show">
+      <?= $_SESSION['success_transferencia'] ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php unset($_SESSION['success_transferencia']); ?>
+  <?php endif; ?>
+
+  <?php if (isset($_SESSION['error_transferencia'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show">
+      <?= $_SESSION['error_transferencia'] ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php unset($_SESSION['error_transferencia']); ?>
+  <?php endif; ?>
   <div class="row mb-4">
     <div class="col-12 text-center">
       <div class="card mx-auto shadow" style="max-width:400px;">

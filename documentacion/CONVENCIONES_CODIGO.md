@@ -6,6 +6,26 @@ Este proyecto sigue una arquitectura MVC (Modelo-Vista-Controlador) en PHP con M
 
 ---
 
+El proyecto tiene la siguiente estructura de carpetas:
+
+- **controllers/**: Contiene los controladores que manejan la lógica de negocio y las peticiones HTTP.
+- **models/**: Contiene los modelos que interactúan con la base de datos y manejan la lógica de datos.
+- **views/**: Contiene las vistas que definen la interfaz de usuario y la presentación de datos.
+- **public/**: Contiene archivos estáticos como CSS, JavaScript e imágenes.
+- **sqlBD/**: Contiene los archivos relacionados con la base de datos, incluyendo scripts SQL. cuando se realice modificaciones a nivel de BD se debe incluir en este archivo
+- **application/**: Contiene archivos de configuración y utilidades de la aplicación.
+- **index.php**: Punto de entrada principal de la aplicación.
+- **.htaccess**: Archivo de configuración de Apache para el manejo de URLs amigables.
+- **documentacion/**: En esta carpeta se encuentran las convensiones, y la documentacion de las funcionalidades, cuando se agregue una nueva funcionalidad se debe registar, y si se modifica el flujo o funcionaidad se debe actualizar en este folder el documento que corresponda.
+
+## Características Principales del sistema
+- Dashboard, pagina principal
+- Registro y gestión de gastos
+- Categorización de gastos
+- Informes y estadísticas
+- Exportación de datos
+- Gestión de usuarios y perfiles
+
 ## Convenciones para JavaScript
 
 ### 1. Usar jQuery en lugar de JavaScript Vanilla
