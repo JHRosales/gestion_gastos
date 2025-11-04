@@ -44,11 +44,13 @@
   </div>
 
   <!-- Botones de Acceso Rápido -->
-  <div class="row">
-    <div class="col-12 text-center mb-4">
-      <a href="<?php echo BASE_URL ?>ingreso/registrar" class="btn btn-success me-2"><i class="bi bi-plus-circle me-1"></i>Registrar nuevo ingreso</a>
-      <a href="<?php echo BASE_URL ?>gasto/registrar" class="btn btn-danger me-2"><i class="bi bi-dash-circle me-1"></i>Registrar nuevo gasto</a>
-      <a href="<?php echo BASE_URL ?>meta/registrar" class="btn btn-primary"><i class="bi bi-bullseye me-1"></i>Registrar nueva meta</a>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex flex-row gap-2 justify-content-center align-items-stretch">
+        <a href="<?php echo BASE_URL ?>ingreso/registrar" class="btn btn-success btn-lg flex-fill py-4 py-md-2"><i class="bi bi-plus-circle fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nuevo ingreso</span><span class="d-md-none">Ingreso</span></a>
+        <a href="<?php echo BASE_URL ?>gasto/registrar" class="btn btn-danger btn-lg flex-fill py-4 py-md-2"><i class="bi bi-dash-circle fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nuevo gasto</span><span class="d-md-none">Gasto</span></a>
+        <a href="<?php echo BASE_URL ?>meta/registrar" class="btn btn-primary btn-lg flex-fill py-4 py-md-2"><i class="bi bi-bullseye fs-3 me-1"></i><span class="d-none d-md-inline">Registrar nueva meta</span><span class="d-md-none">Meta</span></a>
+      </div>
     </div>
   </div>
   <div class="row mb-4">

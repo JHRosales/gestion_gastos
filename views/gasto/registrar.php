@@ -10,7 +10,7 @@
             <!-- Monto -->
             <div class="mb-3">
               <label for="monto" class="form-label">Monto</label>
-              <input type="number" step="0.01" class="form-control" id="monto" name="monto" required 
+              <input type="number" step="0.01" inputmode="decimal" class="form-control" id="monto" name="monto" required 
                      value="<?= $this->esEdicion ? htmlspecialchars($this->gasto['monto']) : '' ?>">
             </div>
             
@@ -41,11 +41,11 @@
             <div class="mb-3">
               <label for="fecha" class="form-label">Fecha</label>
               <input type="date" class="form-control" id="fecha" name="fecha" required 
-                     value="<?= $this->esEdicion ? htmlspecialchars($this->gasto['fecha']) : '' ?>">
+                     value="<?= $this->esEdicion ? htmlspecialchars($this->gasto['fecha']) : date('Y-m-d') ?>">
             </div>
 
             <div class="d-grid">
-              <button type="submit" class="btn btn-danger">
+              <button type="submit" class="btn btn-danger btn-lg py-4 py-md-2">
                 <?= $this->esEdicion ? 'Guardar Cambios' : 'Registrar Gasto' ?>
               </button>
             </div>
